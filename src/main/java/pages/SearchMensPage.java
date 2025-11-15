@@ -2,6 +2,7 @@ package pages;
 
 import base.BasePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -19,10 +20,17 @@ public class SearchMensPage extends BasePage {
     }
 
     public void clearSearchInput() {
-        WebElement element =
-                wait.until(ExpectedConditions.visibilityOfElementLocated(searchInput));
-        element.clear();
+        WebElement element = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(searchInput)
+        );
+
+        element.sendKeys(Keys.CONTROL, "a");
+
+        element.sendKeys(Keys.DELETE);
+
+        slowMode(); // Görsel takip için
     }
+
 
     public void submitSearch() {
         pressEnter(searchInput);

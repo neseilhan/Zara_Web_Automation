@@ -23,12 +23,14 @@ public class BasePage {
 
     protected void click(By locator) {
         wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+        slowMode();
     }
 
     protected void type(By locator, String text) {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         element.clear();
         element.sendKeys(text);
+        slowMode();
     }
 
     protected void pressEnter(By locator) {
@@ -82,5 +84,12 @@ public class BasePage {
             // Cookie popup not present → safe to continue
         }
     }
+
+    protected  void slowMode() {
+        try {
+            Thread.sleep(600);
+        } catch (InterruptedException ignored) {}
+    }
+
 
 }
