@@ -46,8 +46,7 @@ Loom video demosu (eklenecek):
  │   └── resources
  │        ├── config.properties     
  │        └── search-data.xlsx  
-
-  └─ selected-product.txt (Test sırasında seçilen ürün bilgisi burada saklanır)
+ 
 ## Kurulum ve Çalıştırma    
 git clone https://github.com/kullanici/zara-automation.git
 cd zara-automation
