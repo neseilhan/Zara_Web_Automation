@@ -25,6 +25,11 @@ public class SeleniumConfig {
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("--start-maximized");
+                    chromeOptions.addArguments("--disable-blink-features=AutomationControlled");
+                    chromeOptions.addArguments("--disable-infobars");
+                    chromeOptions.addArguments("--disable-gpu");
+                    chromeOptions.addArguments("--no-sandbox");
+                    chromeOptions.addArguments("--disable-dev-shm-usage");
 
                     if (headless) chromeOptions.addArguments("--headless=new");
 

@@ -1,29 +1,39 @@
 package tests;
 
+import config.ConfigReader;
 import config.SeleniumConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pages.MenuMensPage;
-import pages.SearchMensPage;
+import pages.*;
 import utils.ExcelReader;
+import utils.TextWriter;
 
 public class ZaraMenSearchFlowTest {
 
-    private MenuMensPage menuPage;
-    private SearchMensPage searchPage;
+    private HomePage homePage;
+    private LoginPage loginPage;
+    private OrderPage orderPage;
+    private MenuPage menuPage;
+    private SearchPage searchPage;
+    private ProductPage productPage;
     private ExcelReader excel;
+    private CartPage cartPage;
+
 
     @BeforeEach
     void setUp() {
-        // 1) siteyi aç
-        SeleniumConfig.getDriver().get("https://www.zara.com/tr/");
+        SeleniumConfig.getDriver().get(ConfigReader.getBaseUrl());
 
-        // 2) page nesneleri
-        menuPage = new MenuMensPage();
-        searchPage = new SearchMensPage();
+        orderPage = new OrderPage();
+        homePage   = new HomePage();
+        loginPage  = new LoginPage();
+        menuPage = new MenuPage();
+        searchPage = new SearchPage();
+        productPage = new ProductPage();
+        cartPage = new CartPage();
 
-        // 3) excel dosyasını aç
+
         excel = new ExcelReader("test-data/search-data.xlsx", "Sayfa1");
     }
 
@@ -36,22 +46,53 @@ public class ZaraMenSearchFlowTest {
     }
 
     @Test
-    void menCategory_shortThenShirtSearch_flow() {
+    void menCategory_shortThenShirtSearch_flow() throws InterruptedException {
 
-        menuPage.navigateToMenViewAll();  // popup + cookie + menü adımları
+        homePage.acceptCookies();
+        homePage.goToLoginPage();
+
+        loginPage.login(
+                ConfigReader.getEmail(),
+                ConfigReader.getPassword()
+        );
+        orderPage.openBurgerMenu();
+
+        menuPage.navigateToMenViewAll();
 
         searchPage.openSearch();
 
-        String shortText = excel.getCell(0, 0);   // "şort"
-        String shirtText = excel.getCell(1, 0);   // "gömlek"
+        String shortText = excel.getCell(0, 0);
+        String shirtText = excel.getCell(1, 0);
 
-        searchPage.typeKeyword(shortText); // şort yaz
+        searchPage.typeKeyword(shortText);
+        searchPage.clearSearchInput();
 
-        searchPage.clearSearchInput(); // temizle
+        searchPage.typeKeyword(shirtText);
+        searchPage.submitSearch();
 
-        searchPage.typeKeyword(shirtText); // gömlek yaz
+        Thread.sleep(1500);
 
-        searchPage.submitSearch(); // ara
+        searchPage.selectRandomProduct();
+
+        productPage.waitForProductPageToLoad();
+
+        String name = productPage.getProductName();
+        String price = productPage.getProductPrice();
+
+        TextWriter.writeProductInfo("selected-product.txt", name, price);
+
+        productPage.selectSize();
+        productPage.goToBasketFromHeader();
+        productPage.goToBasketFromHeader();
+
+        String cartPrice = cartPage.getCartPrice();
+        assert cartPrice.equals(price) : "Fiyatlar eşleşmiyor!";
+
+        cartPage.increaseQuantity();
+
+        assert cartPage.getQuantity() == 2 : "Adet 2 olmalıydı!";
+
+        cartPage.removeItem();
 
     }
 }

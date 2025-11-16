@@ -12,13 +12,14 @@ public class BasePage {
     protected WebDriverWait wait;
 
     private final By acceptCookiesButton = By.cssSelector("button#onetrust-accept-btn-handler");
-
     private final By regionContinueButton = By.cssSelector("button[data-qa='continue-button']");
 
 
     public BasePage() {
         this.driver = SeleniumConfig.getDriver();
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        org.openqa.selenium.support.PageFactory.initElements(driver, this);
     }
 
     protected void click(By locator) {
@@ -56,19 +57,30 @@ public class BasePage {
                         .executeScript("return document.readyState").equals("complete")
         );
     }
-    protected void safeClick(By locator) {
+    protected void safeClick(WebElement element) {
         for (int i = 0; i < 3; i++) {
             try {
-                wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+                scrollIntoView(element);
+                wait.until(ExpectedConditions.elementToBeClickable(element)).click();
                 return;
+            } catch (StaleElementReferenceException stale) {
+                sleep(300);
             } catch (Exception e) {
-                sleep(500);
+                jsClick(element);
+                return;
             }
         }
-        throw new RuntimeException("Failed to click: " + locator);
+        throw new RuntimeException("Failed to click WebElement: " + element);
     }
 
-    private void sleep(long ms) {
+    protected void jsClick(WebElement element) {
+        try {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        } catch (Exception ignored) {}
+    }
+
+
+    protected void sleep(long ms) {
         try {
             Thread.sleep(ms);
         } catch (Exception ignored) {}
@@ -90,6 +102,24 @@ public class BasePage {
             Thread.sleep(600);
         } catch (InterruptedException ignored) {}
     }
+    protected WebElement waitForElementToBeVisible(By locator) {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+    protected void waitForElementToBeVisible(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    protected WebElement waitForElementToBeClickable(WebElement element) {
+        return wait.until(ExpectedConditions.elementToBeClickable(element));
+    }
+    protected void scrollIntoView(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", element);
+    }
+
+    protected void clickElement(WebElement element) {
+        safeClick(element);
+    }
+
 
 
 }
