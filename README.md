@@ -5,8 +5,9 @@ Bu proje, Selenium WebDriver + Java + Maven + JUnit5 kullanılarak hazırlanmı�
 Test akışı:
 Login → Menü → Arama → Random ürün seçimi → Beden seçimi → Sepete ekleme → Adet artırma → Ürün silme → Sepetin boş olduğunu doğrulama
 
-Loom video demosu (eklenecek):
-👉 Loom Video – Test Automation Demo
+Loom video demosu:
+👉 Loom Demo Video : https://www.loom.com/share/12ce152c6b644f1f919fc3227d5708cc
+
 
 ## Teknolojiler
 | Teknoloji                    | Açıklama                         |
@@ -21,35 +22,9 @@ Loom video demosu (eklenecek):
 | **TextWriter**               | Ürün bilgisini TXT’ye yazma      |
 | **ConfigReader**             | Gizli bilgiler & config yönetimi |
 
-## Proje Yapısı
 
- ├─ test
- │   ├── java
- │   │    ├── pages
- │   │    │    ├── HomePage.java
- │   │    │    ├── LoginPage.java
- │   │    │    ├── MenuPage.java
- │   │    │    ├── SearchPage.java
- │   │    │    ├── ProductPage.java
- │   │    │    └── CartPage.java
- │   │    ├── base
- │   │    │    └── BasePage.java
- │   │    ├── config
- │   │    │    ├── SeleniumConfig.java
- │   │    │    └── ConfigReader.java
- │   │    ├── utils
- │   │    │    ├── ExcelReader.java
- │   │    │    └── TextWriter.java
- │   │    └── tests
- │   │         └── ZaraMenSearchFlowTest.java
- │   │
- │   └── resources
- │        ├── config.properties     
- │        └── search-data.xlsx  
-
-  └─ selected-product.txt (Test sırasında seçilen ürün bilgisi burada saklanır)
 ## Kurulum ve Çalıştırma    
-git clone https://github.com/kullanici/zara-automation.git
+git clone https://github.com/neseilhan/Zara_Web_Automation.git
 cd zara-automation
 
 ## Testi çalıştırmak için Maven kullanabilirsiniz:

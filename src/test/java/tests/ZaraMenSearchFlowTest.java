@@ -83,7 +83,6 @@ public class ZaraMenSearchFlowTest {
 
         productPage.selectSize();
         productPage.goToBasketFromHeader();
-        productPage.goToBasketFromHeader();
 
         String cartPrice = cartPage.getCartPrice();
         assert cartPrice.equals(price) : "Fiyatlar eşleşmiyor!";
