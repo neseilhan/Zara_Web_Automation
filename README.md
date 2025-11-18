@@ -9,6 +9,7 @@ Loom video demosu
 👉 https://www.loom.com/share/12ce152c6b644f1f919fc3227d5708cc
 
 ## Teknolojiler
+
 | Teknoloji                    | Açıklama                         |
 | ---------------------------- | -------------------------------- |
 | **Java 21**                  | Ana dil                          |
