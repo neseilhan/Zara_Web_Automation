@@ -5,10 +5,11 @@ Bu proje, Selenium WebDriver + Java + Maven + JUnit5 kullanılarak hazırlanmı�
 Test akışı:
 Login → Menü → Arama → Random ürün seçimi → Beden seçimi → Sepete ekleme → Adet artırma → Ürün silme → Sepetin boş olduğunu doğrulama
 
-Loom video demosu 
-👉 Loom Demo Video : https://www.loom.com/share/12ce152c6b644f1f919fc3227d5708cc
+Loom demo videosu 
+👉 https://www.loom.com/share/12ce152c6b644f1f919fc3227d5708cc
 
 ## Teknolojiler
+
 | Teknoloji                    | Açıklama                         |
 | ---------------------------- | -------------------------------- |
 | **Java 21**                  | Ana dil                          |
