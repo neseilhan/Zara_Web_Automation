@@ -27,13 +27,6 @@ public class BasePage {
         slowMode();
     }
 
-    protected void type(By locator, String text) {
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        element.clear();
-        element.sendKeys(text);
-        slowMode();
-    }
-
     protected void pressEnter(By locator) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).sendKeys(Keys.ENTER);
     }
@@ -119,7 +112,6 @@ public class BasePage {
     protected void clickElement(WebElement element) {
         safeClick(element);
     }
-
 
 
 }

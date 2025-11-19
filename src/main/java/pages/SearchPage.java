@@ -42,7 +42,7 @@ public class SearchPage extends BasePage {
         slowMode();
     }
 
-    // ⭐ Arama sonuçlarından random ürün seç
+    // Arama sonuçlarından random ürün seç
     public void selectRandomProduct() {
         if (productCardList.isEmpty()) {
             throw new RuntimeException("Ürün bulunamadı!");

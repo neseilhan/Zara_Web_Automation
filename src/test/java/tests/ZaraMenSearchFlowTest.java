@@ -26,7 +26,7 @@ public class ZaraMenSearchFlowTest {
 
     @BeforeEach
     void setUp() {
-        logger.info("Test setup başlatılıyor...");
+        logger.info("Test setup baslatiliyor...");
         SeleniumConfig.getDriver().get(ConfigReader.getBaseUrl());
 
         orderPage = new OrderPage();
@@ -39,12 +39,12 @@ public class ZaraMenSearchFlowTest {
 
 
         excel = new ExcelReader("test-data/search-data.xlsx", "Sayfa1");
-        logger.info("Test setup tamamlandı.");
+        logger.info("Test setup tamamlandi.");
     }
 
     @AfterEach
     void tearDown() {
-        logger.info("Test teardown başlatılıyor...");
+        logger.info("Test teardown baslatiliyor...");
         if (excel != null) {
             excel.close();
         }
@@ -54,66 +54,66 @@ public class ZaraMenSearchFlowTest {
 
     @Test
     void menCategory_shortThenShirtSearch_flow() throws InterruptedException {
-        logger.info("Test: menCategory_shortThenShirtSearch_flow başlatılıyor...");
+        logger.info("Test: menCategory_shortThenShirtSearch_flow baslatiliyor...");
 
         homePage.acceptCookies();
-        logger.info("Çerezler kabul edildi.");
+        logger.info("Cerezler kabul edildi.");
 
         homePage.goToLoginPage();
-        logger.info("Login sayfasına yönlendirildi.");
+        logger.info("Login sayfasina yonlendirildi.");
 
         loginPage.login(ConfigReader.getEmail(), ConfigReader.getPassword());
-        logger.info("Login işlemi tamamlandı.");
+        logger.info("Login islemi tamamlandi.");
 
         orderPage.openBurgerMenu();
-        logger.info("Burger menü açıldı.");
+        logger.info("Burger menu acildi.");
 
         menuPage.navigateToMenViewAll();
-        logger.info("Menüden Erkek kategorisine geçildi.");
+        logger.info("Menuden Erkek kategorisine gecildi.");
 
         searchPage.openSearch();
-        logger.info("Arama ekranı açıldı.");
+        logger.info("Arama ekrani acildi.");
 
         String shortText = excel.getCell(0, 0);
         String shirtText = excel.getCell(1, 0);
 
-        logger.info("Arama için kısa ürün adı: {}", shortText);
+        logger.info("Arama icin kisa urun adi: {}", shortText);
         searchPage.typeKeyword(shortText);
         searchPage.clearSearchInput();
 
-        logger.info("Arama için gömlek ürün adı: {}", shirtText);
+        logger.info("Arama icin gömlek urun adi: {}", shirtText);
         searchPage.typeKeyword(shirtText);
         searchPage.submitSearch();
 
         Thread.sleep(1500);
 
         searchPage.selectRandomProduct();
-        logger.info("Rastgele bir ürün seçildi.");
+        logger.info("Rastgele bir urun secildi.");
 
         productPage.waitForProductPageToLoad();
 
         String name = productPage.getProductName();
         String price = productPage.getProductPrice();
-        logger.info("Seçilen ürün: {}, Fiyat: {}", name, price);
+        logger.info("Secilen urun: {}, Fiyat: {}", name, price);
 
         TextWriter.writeProductInfo("selected-product.txt", name, price);
-        logger.info("Ürün bilgisi dosyaya yazıldı.");
+        logger.info("Urun bilgisi dosyaya yazildi.");
 
         productPage.selectSize();
         productPage.goToBasketFromHeader();
 
         String cartPrice = cartPage.getCartPrice();
-        logger.info("Sepet fiyatı: {}", cartPrice);
-        assert cartPrice.equals(price) : "Fiyatlar eşleşmiyor!";
+        logger.info("Sepet fiyati: {}", cartPrice);
+        assert cartPrice.equals(price) : "Fiyatlar eslesmiyor!";
 
         cartPage.increaseQuantity();
-        logger.info("Ürün adedi artırıldı.");
+        logger.info("Urun adedi artırıldı.");
 
-        assert cartPage.getQuantity() == 2 : "Adet 2 olmalıydı!";
-        logger.info("Ürün adedi doğrulandı.");
+        assert cartPage.getQuantity() == 2 : "Adet 2 olmaliydi!";
+        logger.info("Urun adedi dogrulandi.");
 
         cartPage.removeItem();
-        logger.info("Ürün sepetten kaldırıldı.");
+        logger.info("Urun sepetten kaldirildi.");
 
     }
 }
